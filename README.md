@@ -1,7 +1,7 @@
-================================================================================
+
   TENNISBOOK — Book Your Tennis Court Easily
   Django Web Application | College Assignment Project
-================================================================================
+
 
 DESCRIPTION
 -----------
