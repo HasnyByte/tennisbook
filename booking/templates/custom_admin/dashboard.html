@@ -1,0 +1,137 @@
+{% extends "custom_admin/base.html" %}
+{% block title %}Dashboard — TennisBook Admin{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+<!-- Stats Grid -->
+<div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+  <!-- Total Courts -->
+  <div class="card p-5 flex items-center gap-4 border-l-4 border-brand">
+    <div class="w-11 h-11 rounded-xl bg-green-50 flex items-center justify-center flex-shrink-0">
+      <i class="fas fa-table-tennis text-brand text-lg"></i>
+    </div>
+    <div>
+      <p class="font-display text-forest-900 text-3xl leading-none">{{ total_courts }}</p>
+      <p class="text-gray-500 text-xs uppercase tracking-wider mt-1">Total Lapangan</p>
+    </div>
+  </div>
+  <!-- Available Courts -->
+  <div class="card p-5 flex items-center gap-4 border-l-4 border-lime">
+    <div class="w-11 h-11 rounded-xl bg-yellow-50 flex items-center justify-center flex-shrink-0">
+      <i class="fas fa-check-circle text-yellow-600 text-lg"></i>
+    </div>
+    <div>
+      <p class="font-display text-forest-900 text-3xl leading-none">{{ available_courts }}</p>
+      <p class="text-gray-500 text-xs uppercase tracking-wider mt-1">Tersedia</p>
+    </div>
+  </div>
+  <!-- Total Bookings -->
+  <div class="card p-5 flex items-center gap-4 border-l-4 border-sky-400">
+    <div class="w-11 h-11 rounded-xl bg-sky-50 flex items-center justify-center flex-shrink-0">
+      <i class="fas fa-calendar-check text-sky-500 text-lg"></i>
+    </div>
+    <div>
+      <p class="font-display text-forest-900 text-3xl leading-none">{{ total_bookings }}</p>
+      <p class="text-gray-500 text-xs uppercase tracking-wider mt-1">Total Booking</p>
+    </div>
+  </div>
+  <!-- Pending -->
+  <div class="card p-5 flex items-center gap-4 border-l-4 border-amber-400">
+    <div class="w-11 h-11 rounded-xl bg-amber-50 flex items-center justify-center flex-shrink-0">
+      <i class="fas fa-hourglass-half text-amber-500 text-lg"></i>
+    </div>
+    <div>
+      <p class="font-display text-forest-900 text-3xl leading-none">{{ pending_bookings }}</p>
+      <p class="text-gray-500 text-xs uppercase tracking-wider mt-1">Pending</p>
+    </div>
+  </div>
+</div>
+
+<!-- Booking status bar -->
+<div class="card p-5 mb-6">
+  <h2 class="font-semibold text-forest-900 text-sm mb-3">Status Booking</h2>
+  <div class="flex gap-4 flex-wrap">
+    <div class="flex items-center gap-2">
+      <span class="w-3 h-3 rounded-full bg-amber-400 inline-block"></span>
+      <span class="text-sm text-gray-600">Pending: <strong>{{ pending_bookings }}</strong></span>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="w-3 h-3 rounded-full bg-green-500 inline-block"></span>
+      <span class="text-sm text-gray-600">Confirmed: <strong>{{ confirmed_bookings }}</strong></span>
+    </div>
+    <div class="flex items-center gap-2">
+      <span class="w-3 h-3 rounded-full bg-red-400 inline-block"></span>
+      <span class="text-sm text-gray-600">Cancelled: <strong>{{ cancelled_bookings }}</strong></span>
+    </div>
+  </div>
+  {% if total_bookings > 0 %}
+  <div class="mt-3 h-2 rounded-full bg-gray-100 overflow-hidden flex">
+    <div class="bg-amber-400 h-full" style="width:{% widthratio pending_bookings total_bookings 100 %}%"></div>
+    <div class="bg-green-500 h-full" style="width:{% widthratio confirmed_bookings total_bookings 100 %}%"></div>
+    <div class="bg-red-400 h-full" style="width:{% widthratio cancelled_bookings total_bookings 100 %}%"></div>
+  </div>
+  {% endif %}
+</div>
+
+<!-- Quick Actions + Recent Bookings -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+  <!-- Quick Actions -->
+  <div class="card p-5">
+    <h2 class="font-semibold text-forest-900 text-sm mb-4">Quick Actions</h2>
+    <div class="space-y-2">
+      <a href="{% url 'admin_booking_list' %}" class="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-green-50 hover:text-brand transition-colors text-sm text-gray-700">
+        <i class="fas fa-calendar-alt text-brand w-5 text-center"></i> Lihat Semua Booking
+      </a>
+      <a href="{% url 'admin_booking_list' %}?status=pending" class="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-amber-50 hover:text-amber-700 transition-colors text-sm text-gray-700">
+        <i class="fas fa-hourglass-half text-amber-500 w-5 text-center"></i> Booking Pending
+      </a>
+      <a href="{% url 'admin_court_list' %}" class="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-green-50 hover:text-brand transition-colors text-sm text-gray-700">
+        <i class="fas fa-table-tennis text-brand w-5 text-center"></i> Kelola Lapangan
+      </a>
+      <a href="{% url 'admin_court_add' %}" class="flex items-center gap-3 p-3 rounded-lg bg-gray-50 hover:bg-green-50 hover:text-brand transition-colors text-sm text-gray-700">
+        <i class="fas fa-plus-circle text-brand w-5 text-center"></i> Tambah Lapangan
+      </a>
+    </div>
+  </div>
+
+  <!-- Recent Bookings -->
+  <div class="card p-5 lg:col-span-2">
+    <div class="flex items-center justify-between mb-4">
+      <h2 class="font-semibold text-forest-900 text-sm">Booking Terbaru</h2>
+      <a href="{% url 'admin_booking_list' %}" class="text-brand text-xs hover:underline">Lihat semua →</a>
+    </div>
+    {% if recent_bookings %}
+    <div class="overflow-x-auto -mx-1">
+      <table class="w-full text-sm min-w-max">
+        <thead>
+          <tr class="border-b border-gray-100">
+            <th class="text-left text-xs text-gray-400 font-semibold pb-2 px-1">Nama</th>
+            <th class="text-left text-xs text-gray-400 font-semibold pb-2 px-1">Lapangan</th>
+            <th class="text-left text-xs text-gray-400 font-semibold pb-2 px-1">Tanggal</th>
+            <th class="text-left text-xs text-gray-400 font-semibold pb-2 px-1">Status</th>
+            <th class="text-left text-xs text-gray-400 font-semibold pb-2 px-1"></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for booking in recent_bookings %}
+          <tr class="border-b border-gray-50 table-row">
+            <td class="py-2 px-1 font-medium text-gray-800">{{ booking.full_name }}</td>
+            <td class="py-2 px-1 text-gray-600 truncate max-w-24">{{ booking.court.name }}</td>
+            <td class="py-2 px-1 text-gray-500">{{ booking.booking_date }}</td>
+            <td class="py-2 px-1">
+              <span class="px-2 py-0.5 rounded-full text-xs font-semibold status-{{ booking.status }}">{{ booking.get_status_display }}</span>
+            </td>
+            <td class="py-2 px-1">
+              <a href="{% url 'admin_booking_edit' booking.pk %}" class="text-brand text-xs hover:underline">Edit</a>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p class="text-gray-400 text-sm">Belum ada booking.</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% block title %}My Bookings — TennisBook{% endblock %}
+{% block content %}
+
+<!-- Header -->
+<section class="py-14" style="background-color:#0A3D1F;">
+  <div class="max-w-7xl mx-auto px-4 text-center">
+    <p class="font-bebas tracking-[0.3em] text-sm mb-3" style="color:#1DB954;">Your Reservations</p>
+    <h1 class="font-coolvetica text-white text-5xl md:text-6xl">MY BOOKINGS</h1>
+    <div class="flex items-center justify-center gap-2 mt-4 text-sm font-body text-gray-400">
+      <a href="{% url 'home' %}" class="hover:text-yellow-300 transition-colors">Home</a>
+      <i class="fas fa-chevron-right text-xs text-gray-600"></i>
+      <span style="color:#DFFF00;">My Bookings</span>
+    </div>
+  </div>
+</section>
+
+<!-- Content -->
+<section class="py-12 bg-tennis-light min-h-screen">
+  <div class="max-w-5xl mx-auto px-4">
+
+    <!-- Stats Row -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-10">
+      {% with total=bookings|length %}
+      <div class="bg-white rounded-2xl p-5 shadow-sm text-center">
+        <div class="font-display text-3xl text-tennis-dark mb-1">{{ total }}</div>
+        <div class="font-body text-gray-500 text-xs uppercase tracking-widest">Total</div>
+      </div>
+      {% endwith %}
+      <div class="bg-white rounded-2xl p-5 shadow-sm text-center">
+        <div class="font-display text-3xl text-yellow-500 mb-1">{{ bookings|length }}</div>
+        <div class="font-body text-gray-500 text-xs uppercase tracking-widest">All Time</div>
+      </div>
+      <div class="bg-white rounded-2xl p-5 shadow-sm text-center">
+        <div class="font-display text-3xl mb-1" style="color:#1DB954;">
+          {% with confirmed=0 %}{{ confirmed }}{% endwith %}
+        </div>
+        <div class="font-body text-gray-500 text-xs uppercase tracking-widest">Confirmed</div>
+      </div>
+      <div class="bg-white rounded-2xl p-5 shadow-sm text-center">
+        <div class="font-display text-3xl text-tennis-dark mb-1">
+          <i class="fas fa-user text-tennis-green text-2xl"></i>
+        </div>
+        <div class="font-body text-gray-500 text-xs uppercase tracking-widest">{{ user.username }}</div>
+      </div>
+    </div>
+
+    {% if bookings %}
+    <!-- Bookings List -->
+    <div class="space-y-5">
+      {% for booking in bookings %}
+      <div class="bg-white rounded-2xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300">
+        <div class="flex flex-col md:flex-row">
+          <!-- Court Image -->
+          <div class="md:w-40 h-32 md:h-auto flex-shrink-0 overflow-hidden">
+            <img src="{{ booking.court.image_url|default:'https://images.unsplash.com/photo-1554068865-24cecd4e34b8?w=400&q=80' }}"
+                 alt="{{ booking.court.name }}"
+                 class="w-full h-full object-cover" />
+          </div>
+
+          <!-- Info -->
+          <div class="flex-1 p-6">
+            <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+              <div class="flex-1">
+                <div class="flex items-center gap-3 mb-2">
+                  <h3 class="font-display text-tennis-dark text-lg">{{ booking.court.name }}</h3>
+                  <!-- Status Badge -->
+                  {% if booking.status == 'confirmed' %}
+                  <span class="inline-flex items-center gap-1 bg-green-50 text-green-700 border border-green-200 text-xs font-bebas px-3 py-1 rounded-full tracking-widest">
+                    <span class="w-1.5 h-1.5 bg-green-500 rounded-full"></span>Confirmed
+                  </span>
+                  {% elif booking.status == 'pending' %}
+                  <span class="inline-flex items-center gap-1 bg-yellow-50 text-yellow-700 border border-yellow-200 text-xs font-bebas px-3 py-1 rounded-full tracking-widest">
+                    <span class="w-1.5 h-1.5 bg-yellow-500 rounded-full"></span>Pending
+                  </span>
+                  {% else %}
+                  <span class="inline-flex items-center gap-1 bg-red-50 text-red-700 border border-red-200 text-xs font-bebas px-3 py-1 rounded-full tracking-widest">
+                    <span class="w-1.5 h-1.5 bg-red-500 rounded-full"></span>Cancelled
+                  </span>
+                  {% endif %}
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-2 mt-3">
+                  <div>
+                    <p class="font-body text-xs text-gray-400 uppercase tracking-widest mb-0.5">Date</p>
+                    <p class="font-body text-tennis-dark text-sm font-semibold">{{ booking.booking_date|date:"d M Y" }}</p>
+                  </div>
+                  <div>
+                    <p class="font-body text-xs text-gray-400 uppercase tracking-widest mb-0.5">Time</p>
+                    <p class="font-body text-tennis-dark text-sm font-semibold">{{ booking.booking_hour }}</p>
+                  </div>
+                  <div>
+                    <p class="font-body text-xs text-gray-400 uppercase tracking-widest mb-0.5">Price</p>
+                    <p class="price-tag font-semibold text-sm" style="color:#1DB954;">Rp {{ booking.court.price_per_hour|floatformat:0 }}/hr</p>
+                  </div>
+                  <div>
+                    <p class="font-body text-xs text-gray-400 uppercase tracking-widest mb-0.5">Name</p>
+                    <p class="font-body text-tennis-dark text-sm">{{ booking.full_name }}</p>
+                  </div>
+                  <div>
+                    <p class="font-body text-xs text-gray-400 uppercase tracking-widest mb-0.5">Phone</p>
+                    <p class="font-body text-tennis-dark text-sm">{{ booking.phone }}</p>
+                  </div>
+                  <div>
+                    <p class="font-body text-xs text-gray-400 uppercase tracking-widest mb-0.5">Booked On</p>
+                    <p class="font-body text-gray-500 text-sm">{{ booking.created_at|date:"d M Y" }}</p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Action -->
+              <div class="flex-shrink-0 flex flex-col gap-2">
+                <a href="{% url 'court_detail' booking.court.pk %}"
+                   class="font-bebas text-center px-5 py-2 rounded-xl text-sm tracking-widest transition-all duration-200 border-2 border-tennis-dark text-tennis-dark hover:bg-tennis-dark hover:text-white">
+                  View Court
+                </a>
+                {% if booking.status == 'pending' or booking.status == 'confirmed' %}
+                <a href="{% url 'booking_form' booking.court.pk %}"
+                   class="font-bebas text-center px-5 py-2 rounded-xl text-sm tracking-widest transition-all duration-200" style="background:#1DB954;color:#fff;">
+                  Book Again
+                </a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% else %}
+    <!-- Empty State -->
+    <div class="text-center py-20 bg-white rounded-2xl shadow-sm">
+      <div class="inline-flex items-center justify-center w-24 h-24 bg-gray-100 rounded-full mb-6">
+        <i class="fas fa-calendar-times text-4xl text-gray-300"></i>
+      </div>
+      <h3 class="font-display text-gray-400 text-2xl mb-3">No Bookings Yet</h3>
+      <p class="font-body text-gray-400 mb-8 max-w-sm mx-auto">You haven't booked any courts yet. Start by exploring our available courts!</p>
+      <a href="{% url 'court_list' %}" class="inline-block font-bebas px-10 py-4 rounded-full text-xl tracking-widest hover:opacity-90 transition-all duration-200 shadow-lg" style="background-color:#0A3D1F;color:#DFFF00;">
+        Explore Courts
+      </a>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}

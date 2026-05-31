@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ court.name }} — TennisBook{% endblock %}
+
+{% block content %}
+
+<!-- Breadcrumb -->
+<div class="bg-white border-b border-gray-100 py-3">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center gap-2 text-sm font-body text-gray-500">
+      <a href="{% url 'home' %}" class="hover:text-tennis-green transition-colors">Home</a>
+      <i class="fas fa-chevron-right text-xs text-gray-300"></i>
+      <a href="{% url 'court_list' %}" class="hover:text-tennis-green transition-colors">Courts</a>
+      <i class="fas fa-chevron-right text-xs text-gray-300"></i>
+      <span class="text-tennis-dark font-medium">{{ court.name }}</span>
+    </div>
+  </div>
+</div>
+
+<!-- Court Detail Content -->
+<section class="py-12 bg-tennis-light min-h-screen">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+
+      <!-- Left: Image -->
+      <div>
+        <div class="rounded-2xl overflow-hidden shadow-xl">
+          <img src="{{ court.image_url|default:'https://images.unsplash.com/photo-1554068865-24cecd4e34b8?w=800&q=80' }}"
+               alt="{{ court.name }}"
+               class="w-full h-96 object-cover" />
+        </div>
+
+        <!-- Facilities Grid -->
+        {% if facilities %}
+        <div class="mt-8 bg-white rounded-2xl p-6 shadow-md">
+          <h3 class="font-display text-tennis-dark text-lg mb-4">Facilities</h3>
+          <div class="flex flex-wrap gap-3">
+            {% for fac in facilities %}
+            <span class="bg-tennis-green/10 text-tennis-dark border border-tennis-green/20 text-sm font-body px-4 py-2 rounded-full flex items-center gap-2">
+              <i class="fas fa-check-circle text-tennis-green text-xs"></i>
+              {{ fac.name }}
+            </span>
+            {% endfor %}
+          </div>
+          {% if facilities.0.description %}
+          <div class="mt-4 space-y-2">
+            {% for fac in facilities %}
+            {% if fac.description %}
+            <p class="font-body text-gray-500 text-sm"><span class="font-medium text-tennis-dark">{{ fac.name }}:</span> {{ fac.description }}</p>
+            {% endif %}
+            {% endfor %}
+          </div>
+          {% endif %}
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- Right: Info -->
+      <div>
+        <!-- Availability Badge -->
+        <div class="mb-4">
+          {% if court.is_available %}
+          <span class="inline-flex items-center gap-2 bg-tennis-green/10 text-tennis-green border border-tennis-green/30 text-sm font-bebas px-4 py-2 rounded-full tracking-widest">
+            <span class="w-2 h-2 bg-tennis-green rounded-full animate-pulse"></span>
+            Available
+          </span>
+          {% else %}
+          <span class="inline-flex items-center gap-2 bg-red-50 text-red-500 border border-red-200 text-sm font-bebas px-4 py-2 rounded-full tracking-widest">
+            <span class="w-2 h-2 bg-red-500 rounded-full"></span>
+            Unavailable
+          </span>
+          {% endif %}
+        </div>
+
+        <!-- Court Name -->
+        <h1 class="font-coolvetica text-tennis-dark text-5xl md:text-6xl leading-tight mb-4">{{ court.name }}</h1>
+
+        <!-- Price -->
+        <div class="flex items-baseline gap-2 mb-6">
+          <span class="price-tag text-tennis-green text-4xl font-bold">Rp {{ court.price_per_hour|floatformat:0 }}</span>
+          <span class="font-body text-gray-400 text-lg">/ hour</span>
+        </div>
+
+        <!-- Location -->
+        <div class="flex items-center gap-3 mb-6 p-4 bg-white rounded-xl shadow-sm">
+          <div class="w-10 h-10 bg-tennis-green/10 rounded-xl flex items-center justify-center flex-shrink-0">
+            <i class="fas fa-map-marker-alt text-tennis-green"></i>
+          </div>
+          <div>
+            <p class="font-body text-xs text-gray-400 uppercase tracking-widest mb-0.5">Location</p>
+            <p class="font-body text-tennis-dark font-medium">{{ court.location }}</p>
+          </div>
+        </div>
+
+        <!-- Divider -->
+        <hr class="border-gray-200 mb-6" />
+
+        <!-- Description -->
+        <div class="mb-8">
+          <h3 class="font-display text-tennis-dark text-lg mb-3">About This Court</h3>
+          <p class="font-body text-gray-500 leading-relaxed text-base">{{ court.description }}</p>
+        </div>
+
+        <!-- Info Cards -->
+        <div class="grid grid-cols-2 gap-4 mb-8">
+          <div class="bg-white p-4 rounded-xl shadow-sm text-center">
+            <i class="fas fa-clock text-tennis-green text-xl mb-2"></i>
+            <p class="font-body text-xs text-gray-400 uppercase tracking-widest mb-1">Hours</p>
+            <p class="font-body text-tennis-dark text-sm font-semibold">06:00 - 22:00</p>
+          </div>
+          <div class="bg-white p-4 rounded-xl shadow-sm text-center">
+            <i class="fas fa-calendar text-tennis-green text-xl mb-2"></i>
+            <p class="font-body text-xs text-gray-400 uppercase tracking-widest mb-1">Availability</p>
+            <p class="font-body text-tennis-dark text-sm font-semibold">Mon - Sun</p>
+          </div>
+        </div>
+
+        <!-- CTA Button -->
+        {% if court.is_available %}
+        <a href="{% url 'booking_form' court.pk %}"
+           class="block w-full text-center font-bebas bg-tennis-green text-white py-5 rounded-xl text-2xl tracking-widest hover:bg-green-600 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 transform">
+          Book This Court
+        </a>
+        {% else %}
+        <button disabled class="block w-full text-center font-bebas bg-gray-300 text-gray-500 py-5 rounded-xl text-2xl tracking-widest cursor-not-allowed">
+          Court Unavailable
+        </button>
+        {% endif %}
+
+        <!-- Added Date -->
+        <p class="font-body text-gray-400 text-xs text-center mt-4">
+          Added on {{ court.created_at|date:"F j, Y" }}
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,146 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block content %}
+
+<!-- Welcome Banner -->
+<div style="background:linear-gradient(135deg,#0A3D1F 0%,#0f5a2a 100%);border-radius:16px;padding:28px 32px;margin-bottom:28px;display:flex;align-items:center;justify-content:space-between;overflow:hidden;position:relative;">
+  <div style="position:absolute;right:-40px;top:-40px;width:200px;height:200px;background:rgba(29,185,84,0.15);border-radius:50%;"></div>
+  <div style="position:absolute;right:60px;bottom:-60px;width:150px;height:150px;background:rgba(223,255,0,0.08);border-radius:50%;"></div>
+  <div style="position:relative;z-index:1;">
+    <p style="font-family:'Bebas Neue',sans-serif;color:#1DB954;letter-spacing:0.15em;font-size:0.75rem;margin-bottom:6px;">Welcome Back</p>
+    <h1 style="font-family:'Anton',sans-serif;color:#DFFF00;font-size:2.2rem;letter-spacing:-0.02em;margin:0 0 6px 0;">TennisBook Dashboard</h1>
+    <p style="font-family:'Inter',sans-serif;color:#9ca3af;font-size:0.875rem;margin:0;">Manage your courts, bookings, and facilities from one place.</p>
+  </div>
+  <div style="position:relative;z-index:1;display:none;"></div>
+</div>
+
+<!-- Stats Cards -->
+{% load booking_tags %}
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:28px;">
+
+  <!-- Total Courts -->
+  <div style="background:#fff;border-radius:14px;padding:20px 22px;box-shadow:0 2px 12px rgba(0,0,0,0.06);border-left:4px solid #1DB954;display:flex;align-items:center;gap:16px;">
+    <div style="width:48px;height:48px;background:rgba(29,185,84,0.1);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <i class="fas fa-table-tennis" style="color:#1DB954;font-size:1.3rem;"></i>
+    </div>
+    <div>
+      <div style="font-family:'Anton',sans-serif;font-size:1.8rem;color:#0A3D1F;line-height:1;">{% get_total_courts %}</div>
+      <div style="font-family:'Inter',sans-serif;font-size:0.7rem;color:#6b7280;text-transform:uppercase;letter-spacing:0.1em;margin-top:2px;">Total Courts</div>
+    </div>
+  </div>
+
+  <!-- Available Courts -->
+  <div style="background:#fff;border-radius:14px;padding:20px 22px;box-shadow:0 2px 12px rgba(0,0,0,0.06);border-left:4px solid #DFFF00;display:flex;align-items:center;gap:16px;">
+    <div style="width:48px;height:48px;background:rgba(223,255,0,0.12);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <i class="fas fa-check-circle" style="color:#a3b800;font-size:1.3rem;"></i>
+    </div>
+    <div>
+      <div style="font-family:'Anton',sans-serif;font-size:1.8rem;color:#0A3D1F;line-height:1;">{% get_available_courts %}</div>
+      <div style="font-family:'Inter',sans-serif;font-size:0.7rem;color:#6b7280;text-transform:uppercase;letter-spacing:0.1em;margin-top:2px;">Available</div>
+    </div>
+  </div>
+
+  <!-- Total Bookings -->
+  <div style="background:#fff;border-radius:14px;padding:20px 22px;box-shadow:0 2px 12px rgba(0,0,0,0.06);border-left:4px solid #38bdf8;display:flex;align-items:center;gap:16px;">
+    <div style="width:48px;height:48px;background:rgba(56,189,248,0.1);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <i class="fas fa-calendar-check" style="color:#38bdf8;font-size:1.3rem;"></i>
+    </div>
+    <div>
+      <div style="font-family:'Anton',sans-serif;font-size:1.8rem;color:#0A3D1F;line-height:1;">{% get_total_bookings %}</div>
+      <div style="font-family:'Inter',sans-serif;font-size:0.7rem;color:#6b7280;text-transform:uppercase;letter-spacing:0.1em;margin-top:2px;">Total Bookings</div>
+    </div>
+  </div>
+
+  <!-- Pending Bookings -->
+  <div style="background:#fff;border-radius:14px;padding:20px 22px;box-shadow:0 2px 12px rgba(0,0,0,0.06);border-left:4px solid #f59e0b;display:flex;align-items:center;gap:16px;">
+    <div style="width:48px;height:48px;background:rgba(245,158,11,0.1);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <i class="fas fa-hourglass-half" style="color:#f59e0b;font-size:1.3rem;"></i>
+    </div>
+    <div>
+      <div style="font-family:'Anton',sans-serif;font-size:1.8rem;color:#0A3D1F;line-height:1;">{% get_pending_bookings %}</div>
+      <div style="font-family:'Inter',sans-serif;font-size:0.7rem;color:#6b7280;text-transform:uppercase;letter-spacing:0.1em;margin-top:2px;">Pending</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- App List -->
+{% if app_list %}
+  {% for app in app_list %}
+  <div class="module" style="margin-bottom:20px;">
+    <table style="width:100%;border-collapse:collapse;">
+      <caption style="text-align:left;padding:12px 16px;font-family:'Bebas Neue',sans-serif;letter-spacing:0.12em;font-size:0.9rem;background:#0A3D1F;color:#DFFF00;">
+        {{ app.name }}
+      </caption>
+      <tbody>
+        {% for model in app.models %}
+        <tr style="border-bottom:1px solid #f3f4f6;">
+          <td style="padding:12px 16px;">
+            {% if model.admin_url %}
+              <a href="{{ model.admin_url }}" style="font-family:'Inter',sans-serif;font-weight:600;color:#0A3D1F;text-decoration:none;font-size:0.9rem;">
+                <i class="fas fa-table" style="color:#1DB954;margin-right:8px;font-size:0.8rem;"></i>
+                {{ model.name }}
+              </a>
+            {% else %}
+              <span style="font-family:'Inter',sans-serif;font-weight:600;color:#6b7280;font-size:0.9rem;">{{ model.name }}</span>
+            {% endif %}
+          </td>
+          <td style="padding:12px 16px;text-align:right;">
+            <span style="display:flex;gap:8px;justify-content:flex-end;flex-wrap:wrap;">
+              {% if model.add_url %}
+              <a href="{{ model.add_url }}" style="font-family:'Bebas Neue',sans-serif;background:#1DB954;color:#fff;padding:5px 14px;border-radius:7px;text-decoration:none;font-size:0.8rem;letter-spacing:0.08em;">
+                <i class="fas fa-plus" style="margin-right:4px;font-size:0.7rem;"></i>Add
+              </a>
+              {% endif %}
+              {% if model.admin_url %}
+              <a href="{{ model.admin_url }}" style="font-family:'Bebas Neue',sans-serif;background:#0A3D1F;color:#DFFF00;padding:5px 14px;border-radius:7px;text-decoration:none;font-size:0.8rem;letter-spacing:0.08em;">
+                <i class="fas fa-list" style="margin-right:4px;font-size:0.7rem;"></i>View
+              </a>
+              {% endif %}
+            </span>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endfor %}
+{% else %}
+  <p style="font-family:'Inter',sans-serif;color:#6b7280;">{% translate "You don't have permission to view or edit anything." %}</p>
+{% endif %}
+
+<!-- Recent Actions -->
+{% if recent_actions_list %}
+<div class="module" style="margin-top:24px;">
+  <table style="width:100%;border-collapse:collapse;">
+    <caption style="text-align:left;padding:12px 16px;font-family:'Bebas Neue',sans-serif;letter-spacing:0.12em;font-size:0.9rem;background:#0A3D1F;color:#DFFF00;">
+      Recent Actions
+    </caption>
+    <tbody>
+      {% for entry in recent_actions_list %}
+      <tr style="border-bottom:1px solid #f3f4f6;">
+        <td style="padding:10px 16px;width:20px;">
+          {% if entry.is_addition %}<i class="fas fa-plus-circle" style="color:#1DB954;"></i>{% endif %}
+          {% if entry.is_change %}<i class="fas fa-edit" style="color:#38bdf8;"></i>{% endif %}
+          {% if entry.is_deletion %}<i class="fas fa-trash-alt" style="color:#dc2626;"></i>{% endif %}
+        </td>
+        <td style="padding:10px 16px;">
+          <span style="font-family:'Inter',sans-serif;font-size:0.875rem;color:#374151;">
+            {% if entry.is_deletion or not entry.get_admin_url %}
+              {{ entry.object_repr }}
+            {% else %}
+              <a href="{{ entry.get_admin_url }}" style="color:#1DB954;text-decoration:none;font-weight:500;">{{ entry.object_repr }}</a>
+            {% endif %}
+          </span>
+          <br>
+          <span style="font-family:'Inter',sans-serif;font-size:0.75rem;color:#9ca3af;">{{ entry.content_type }}</span>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+
+{% endblock %}

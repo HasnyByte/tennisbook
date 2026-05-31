@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+
+{% block title %}TennisBook — Book Your Tennis Court Easily{% endblock %}
+
+{% block content %}
+
+<!-- SECTION 1: HERO -->
+<section class="relative min-h-screen flex items-center justify-center overflow-hidden"
+  style="background-image: url('https://images.unsplash.com/photo-1595435934249-5df7ed86e1c0?w=1920&q=80'); background-size: cover; background-position: center;">
+  <!-- Dark overlay -->
+  <div class="absolute inset-0" style="background: rgba(0,0,0,0.55);"></div>
+
+  <!-- Content -->
+  <div class="relative z-10 text-center px-4 max-w-5xl mx-auto">
+    <p class="font-bebas text-tennis-yellow tracking-[0.3em] text-sm mb-4 uppercase">World Class Courts</p>
+    <h1 class="font-coolvetica text-white leading-none mb-2">
+      <span class="block text-6xl md:text-8xl lg:text-9xl">BOOK YOUR</span>
+      <span class="block text-6xl md:text-8xl lg:text-9xl">TENNIS COURT</span>
+      <span class="block text-6xl md:text-8xl lg:text-9xl text-tennis-yellow">EASILY</span>
+    </h1>
+    <p class="font-body text-gray-300 font-light text-lg md:text-xl max-w-lg mx-auto mt-6 mb-10 leading-relaxed">
+      Premium tennis courts available for booking. Experience world-class facilities, flexible scheduling, and effortless reservations.
+    </p>
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="{% url 'court_list' %}" class="font-bebas bg-tennis-yellow text-tennis-dark px-8 py-4 rounded-full text-xl tracking-widest hover:bg-yellow-300 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 transform">
+        Explore Courts
+      </a>
+      <a href="{% url 'service' %}" class="font-bebas border-2 border-white text-white px-8 py-4 rounded-full text-xl tracking-widest hover:bg-white hover:text-tennis-dark transition-all duration-300">
+        Learn More
+      </a>
+    </div>
+  </div>
+
+  <!-- Scroll Arrow -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 animate-bounce">
+    <a href="#stats" class="text-white opacity-70 hover:opacity-100 transition-opacity">
+      <i class="fas fa-chevron-down text-2xl"></i>
+    </a>
+  </div>
+</section>
+
+<!-- SECTION 2: STATS BAR -->
+<section id="stats" class="bg-tennis-green py-10">
+  <div class="max-w-7xl mx-auto px-4">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      <div>
+        <div class="font-display text-white text-4xl mb-1">10+</div>
+        <div class="font-body text-white/80 text-sm uppercase tracking-widest">Courts</div>
+      </div>
+      <div>
+        <div class="font-display text-white text-4xl mb-1">500+</div>
+        <div class="font-body text-white/80 text-sm uppercase tracking-widest">Bookings</div>
+      </div>
+      <div>
+        <div class="font-display text-white text-4xl mb-1">5 Star</div>
+        <div class="font-body text-white/80 text-sm uppercase tracking-widest">Rated</div>
+      </div>
+      <div>
+        <div class="font-display text-white text-4xl mb-1">Daily</div>
+        <div class="font-body text-white/80 text-sm uppercase tracking-widest">Open</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3: FEATURED COURTS -->
+<section class="py-20 bg-tennis-light">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-14">
+      <p class="font-bebas text-tennis-green tracking-widest text-sm mb-2">TOP PICKS</p>
+      <h2 class="font-coolvetica text-tennis-dark text-5xl md:text-6xl mb-4">FEATURED COURTS</h2>
+      <p class="font-body text-gray-500 text-lg max-w-xl mx-auto">Book the best courts in the city. Premium facilities, competitive pricing, and unmatched experience.</p>
+    </div>
+
+    {% if courts %}
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+      {% for court in courts %}
+      <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover-lift group">
+        <!-- Court Image -->
+        <div class="relative h-52 overflow-hidden">
+          <img src="{{ court.image_url|default:'https://images.unsplash.com/photo-1554068865-24cecd4e34b8?w=800&q=80' }}"
+               alt="{{ court.name }}"
+               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+          <!-- Availability Badge -->
+          <div class="absolute top-3 right-3">
+            {% if court.is_available %}
+              <span class="bg-tennis-green text-white text-xs font-bold px-3 py-1 rounded-full font-bebas tracking-widest">Available</span>
+            {% else %}
+              <span class="bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full font-bebas tracking-widest">Unavailable</span>
+            {% endif %}
+          </div>
+        </div>
+        <!-- Court Info -->
+        <div class="p-6">
+          <h3 class="font-display text-tennis-dark text-xl mb-1">{{ court.name }}</h3>
+          <div class="flex items-center gap-1 text-gray-500 text-sm mb-3">
+            <i class="fas fa-map-marker-alt text-tennis-green text-xs"></i>
+            <span class="font-body">{{ court.location }}</span>
+          </div>
+          <p class="font-body text-gray-500 text-sm mb-4 line-clamp-2">{{ court.description }}</p>
+          <div class="flex items-center justify-between">
+            <div>
+              <span class="price-tag text-tennis-green text-2xl font-bold">Rp {{ court.price_per_hour|floatformat:0 }}</span>
+              <span class="font-body text-gray-400 text-xs">/hour</span>
+            </div>
+            <a href="{% url 'booking_form' court.pk %}"
+               class="font-bebas bg-tennis-green text-white px-5 py-2 rounded-xl text-sm tracking-widest hover:bg-green-600 transition-all duration-200">
+              Book Now
+            </a>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="text-center py-16">
+      <i class="fas fa-table-tennis text-6xl text-gray-300 mb-4"></i>
+      <p class="font-body text-gray-500 text-lg">No courts available at the moment. Check back soon!</p>
+    </div>
+    {% endif %}
+
+    <div class="text-center">
+      <a href="{% url 'court_list' %}" class="inline-block font-bebas border-2 border-tennis-dark text-tennis-dark px-10 py-4 rounded-full text-xl tracking-widest hover:bg-tennis-dark hover:text-white transition-all duration-300">
+        View All Courts
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4: WHY CHOOSE US -->
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-14">
+      <p class="font-bebas text-tennis-green tracking-widest text-sm mb-2">Our Advantages</p>
+      <h2 class="font-coolvetica text-tennis-dark text-5xl md:text-6xl mb-4">WHY CHOOSE US</h2>
+      <p class="font-body text-gray-500 text-lg max-w-xl mx-auto">We deliver the best tennis court booking experience with premium facilities and unmatched service.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="text-center p-8 rounded-2xl bg-tennis-light hover:shadow-lg transition-all duration-300 group">
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-tennis-green/10 rounded-2xl mb-6 group-hover:bg-tennis-green/20 transition-all duration-300">
+          <i class="fas fa-calendar-check text-tennis-green text-2xl"></i>
+        </div>
+        <h3 class="font-display text-tennis-dark text-xl mb-3">Easy Booking</h3>
+        <p class="font-body text-gray-500 text-sm leading-relaxed">Book your court in minutes with our streamlined online booking system. No hassle, no waiting.</p>
+      </div>
+
+      <div class="text-center p-8 rounded-2xl bg-tennis-light hover:shadow-lg transition-all duration-300 group">
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-tennis-green/10 rounded-2xl mb-6 group-hover:bg-tennis-green/20 transition-all duration-300">
+          <i class="fas fa-star text-tennis-green text-2xl"></i>
+        </div>
+        <h3 class="font-display text-tennis-dark text-xl mb-3">Premium Courts</h3>
+        <p class="font-body text-gray-500 text-sm leading-relaxed">Well-maintained, professional-grade courts with top facilities for an exceptional playing experience.</p>
+      </div>
+
+      <div class="text-center p-8 rounded-2xl bg-tennis-light hover:shadow-lg transition-all duration-300 group">
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-tennis-green/10 rounded-2xl mb-6 group-hover:bg-tennis-green/20 transition-all duration-300">
+          <i class="fas fa-clock text-tennis-green text-2xl"></i>
+        </div>
+        <h3 class="font-display text-tennis-dark text-xl mb-3">Flexible Schedule</h3>
+        <p class="font-body text-gray-500 text-sm leading-relaxed">Available every day from 06:00 to 22:00 WIB. Choose the time slot that works best for you.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 5: CTA BANNER -->
+<section class="bg-tennis-dark py-20 relative overflow-hidden">
+  <!-- Decorative elements -->
+  <div class="absolute top-0 right-0 w-64 h-64 bg-tennis-green/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+  <div class="absolute bottom-0 left-0 w-96 h-96 bg-tennis-yellow/5 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <!-- Left: Text -->
+      <div>
+        <p class="font-bebas text-tennis-green tracking-widest text-sm mb-4">Start Playing Today</p>
+        <h2 class="font-coolvetica text-tennis-yellow text-6xl md:text-7xl leading-none mb-6">READY TO PLAY?</h2>
+        <p class="font-body text-gray-400 text-lg mb-8 leading-relaxed">Join hundreds of tennis players who trust TennisBook for seamless court reservations. Your next match is just a few clicks away.</p>
+        <a href="{% url 'court_list' %}" class="inline-block font-bebas bg-tennis-yellow text-tennis-dark px-10 py-4 rounded-full text-xl tracking-widest hover:bg-yellow-300 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 transform">
+          Book Now
+        </a>
+      </div>
+      <!-- Right: Visual -->
+      <div class="hidden md:flex items-center justify-center">
+        <div class="relative">
+          <div class="w-64 h-64 bg-tennis-green/20 rounded-full flex items-center justify-center border-4 border-tennis-green/30">
+            <div class="w-48 h-48 bg-tennis-green/30 rounded-full flex items-center justify-center border-4 border-tennis-green/40">
+              <i class="fas fa-table-tennis text-tennis-yellow text-7xl"></i>
+            </div>
+          </div>
+          <div class="absolute -top-4 -right-4 bg-tennis-yellow text-tennis-dark font-bebas px-4 py-2 rounded-full text-sm tracking-widest">
+            Book Today!
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

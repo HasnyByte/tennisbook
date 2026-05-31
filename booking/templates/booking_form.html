@@ -1,0 +1,177 @@
+{% extends 'base.html' %}
+
+{% block title %}Book {{ court.name }} — TennisBook{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<section class="bg-tennis-dark py-12">
+  <div class="max-w-7xl mx-auto px-4 text-center">
+    <p class="font-bebas text-tennis-green tracking-[0.3em] text-sm mb-2">Reserve Your Spot</p>
+    <h1 class="font-coolvetica text-white text-5xl md:text-6xl">BOOK YOUR COURT</h1>
+    <!-- Breadcrumb -->
+    <div class="flex items-center justify-center gap-2 mt-4 text-sm font-body text-gray-400">
+      <a href="{% url 'home' %}" class="hover:text-tennis-yellow transition-colors">Home</a>
+      <i class="fas fa-chevron-right text-xs text-gray-600"></i>
+      <a href="{% url 'court_list' %}" class="hover:text-tennis-yellow transition-colors">Courts</a>
+      <i class="fas fa-chevron-right text-xs text-gray-600"></i>
+      <a href="{% url 'court_detail' court.pk %}" class="hover:text-tennis-yellow transition-colors">{{ court.name }}</a>
+      <i class="fas fa-chevron-right text-xs text-gray-600"></i>
+      <span class="text-tennis-yellow">Book</span>
+    </div>
+  </div>
+</section>
+
+<!-- Booking Form Section -->
+<section class="py-12 bg-tennis-light min-h-screen">
+  <div class="max-w-2xl mx-auto px-4">
+
+    <!-- Court Summary Card -->
+    <div class="bg-white rounded-2xl shadow-lg overflow-hidden mb-8">
+      <div class="flex items-center gap-4 p-5">
+        <img src="{{ court.image_url|default:'https://images.unsplash.com/photo-1554068865-24cecd4e34b8?w=800&q=80' }}"
+             alt="{{ court.name }}"
+             class="w-20 h-20 object-cover rounded-xl flex-shrink-0" />
+        <div class="flex-1">
+          <h3 class="font-display text-tennis-dark text-lg">{{ court.name }}</h3>
+          <div class="flex items-center gap-1 text-gray-500 text-sm mb-1">
+            <i class="fas fa-map-marker-alt text-tennis-green text-xs"></i>
+            <span class="font-body">{{ court.location }}</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="price-tag text-tennis-green text-xl font-bold">Rp {{ court.price_per_hour|floatformat:0 }}<span class="font-body text-gray-400 text-xs font-normal">/hour</span></span>
+            {% if court.is_available %}
+            <span class="bg-tennis-green/10 text-tennis-green text-xs font-bebas px-2 py-0.5 rounded-full tracking-widest">Available</span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form Card -->
+    <div class="bg-white rounded-2xl shadow-xl p-8">
+      <h2 class="font-coolvetica text-tennis-dark text-3xl mb-2">Booking Details</h2>
+      <p class="font-body text-gray-500 text-sm mb-8">Fill in your information below to complete the reservation.</p>
+
+      <form method="post" novalidate>
+        {% csrf_token %}
+
+        <!-- Personal Info Section -->
+        <div class="mb-8">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-8 h-8 bg-tennis-dark text-tennis-yellow rounded-lg flex items-center justify-center flex-shrink-0">
+              <span class="font-bebas text-sm">01</span>
+            </div>
+            <h3 class="font-display text-tennis-dark text-lg">Personal Information</h3>
+          </div>
+
+          <div class="space-y-5">
+            <!-- Full Name -->
+            <div>
+              <label class="block font-body font-medium text-gray-700 text-sm mb-2">
+                Full Name <span class="text-red-500">*</span>
+              </label>
+              {{ form.full_name }}
+              {% if form.full_name.errors %}
+              <p class="text-red-500 text-xs mt-1 font-body">{{ form.full_name.errors.0 }}</p>
+              {% endif %}
+            </div>
+
+            <!-- Email -->
+            <div>
+              <label class="block font-body font-medium text-gray-700 text-sm mb-2">
+                Email Address <span class="text-red-500">*</span>
+              </label>
+              {{ form.email }}
+              {% if form.email.errors %}
+              <p class="text-red-500 text-xs mt-1 font-body">{{ form.email.errors.0 }}</p>
+              {% endif %}
+            </div>
+
+            <!-- Phone -->
+            <div>
+              <label class="block font-body font-medium text-gray-700 text-sm mb-2">
+                Phone Number <span class="text-red-500">*</span>
+              </label>
+              {{ form.phone }}
+              {% if form.phone.errors %}
+              <p class="text-red-500 text-xs mt-1 font-body">{{ form.phone.errors.0 }}</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <!-- Divider -->
+        <div class="border-t border-dashed border-gray-200 mb-8"></div>
+
+        <!-- Booking Info Section -->
+        <div class="mb-8">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-8 h-8 bg-tennis-dark text-tennis-yellow rounded-lg flex items-center justify-center flex-shrink-0">
+              <span class="font-bebas text-sm">02</span>
+            </div>
+            <h3 class="font-display text-tennis-dark text-lg">Booking Schedule</h3>
+          </div>
+
+          <div class="space-y-5">
+            <!-- Date -->
+            <div>
+              <label class="block font-body font-medium text-gray-700 text-sm mb-2">
+                Booking Date <span class="text-red-500">*</span>
+              </label>
+              {{ form.booking_date }}
+              {% if form.booking_date.errors %}
+              <p class="text-red-500 text-xs mt-1 font-body">{{ form.booking_date.errors.0 }}</p>
+              {% endif %}
+            </div>
+
+            <!-- Hour -->
+            <div>
+              <label class="block font-body font-medium text-gray-700 text-sm mb-2">
+                Booking Hour <span class="text-red-500">*</span>
+              </label>
+              {{ form.booking_hour }}
+              {% if form.booking_hour.errors %}
+              <p class="text-red-500 text-xs mt-1 font-body">{{ form.booking_hour.errors.0 }}</p>
+              {% endif %}
+            </div>
+
+            <!-- Notes -->
+            <div>
+              <label class="block font-body font-medium text-gray-700 text-sm mb-2">
+                Additional Notes <span class="text-gray-400 font-normal">(Optional)</span>
+              </label>
+              {{ form.notes }}
+              {% if form.notes.errors %}
+              <p class="text-red-500 text-xs mt-1 font-body">{{ form.notes.errors.0 }}</p>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <!-- Global Form Errors -->
+        {% if form.non_field_errors %}
+        <div class="bg-red-50 border border-red-200 rounded-xl p-4 mb-6">
+          {% for error in form.non_field_errors %}
+          <p class="text-red-500 text-sm font-body">{{ error }}</p>
+          {% endfor %}
+        </div>
+        {% endif %}
+
+        <!-- Notice -->
+        <div class="bg-tennis-green/5 border border-tennis-green/20 rounded-xl p-4 mb-6 flex items-start gap-3">
+          <i class="fas fa-info-circle text-tennis-green mt-0.5 flex-shrink-0"></i>
+          <p class="font-body text-gray-600 text-sm leading-relaxed">Your booking will be submitted with a <strong>Pending</strong> status. Our team will confirm your reservation within 24 hours.</p>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit"
+          class="w-full font-bebas bg-tennis-dark text-tennis-yellow py-5 rounded-xl text-2xl tracking-widest hover:bg-green-900 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5 transform">
+          Confirm Booking
+        </button>
+      </form>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}Booking Submitted — TennisBook{% endblock %}
+
+{% block content %}
+
+<section class="min-h-screen bg-tennis-light flex items-center justify-center py-16">
+  <div class="max-w-lg mx-auto px-4 text-center">
+
+    <!-- Success Icon -->
+    <div class="inline-flex items-center justify-center w-28 h-28 bg-tennis-green/10 rounded-full mb-8 animate-bounce">
+      <div class="w-20 h-20 bg-tennis-green rounded-full flex items-center justify-center">
+        <i class="fas fa-check text-white text-4xl"></i>
+      </div>
+    </div>
+
+    <!-- Heading -->
+    <h1 class="font-coolvetica text-tennis-dark text-5xl md:text-6xl leading-tight mb-4">BOOKING SUBMITTED!</h1>
+
+    <!-- Status Badge -->
+    <div class="inline-flex items-center gap-2 bg-yellow-50 border border-yellow-200 text-yellow-700 px-5 py-2.5 rounded-full mb-6">
+      <i class="fas fa-hourglass-half text-yellow-500 text-sm"></i>
+      <span class="font-bebas tracking-widest text-sm">Status: Pending Confirmation</span>
+    </div>
+
+    <p class="font-body text-gray-500 text-lg leading-relaxed mb-4">Your booking has been successfully submitted.</p>
+    <p class="font-body text-gray-500 leading-relaxed mb-8">
+      Your reservation is currently <strong class="text-tennis-dark">Pending</strong>. Our team will review your booking and send a confirmation to your email address within <strong class="text-tennis-dark">24 hours</strong>. Please check your inbox for further updates.
+    </p>
+
+    <!-- Info Cards -->
+    <div class="grid grid-cols-1 gap-4 mb-10">
+      <div class="bg-white rounded-2xl p-5 shadow-sm flex items-center gap-4 text-left">
+        <div class="w-12 h-12 bg-tennis-green/10 rounded-xl flex items-center justify-center flex-shrink-0">
+          <i class="fas fa-envelope text-tennis-green"></i>
+        </div>
+        <div>
+          <p class="font-body text-xs text-gray-400 uppercase tracking-widest mb-0.5">Next Step</p>
+          <p class="font-body text-tennis-dark font-medium text-sm">Check your email for confirmation details</p>
+        </div>
+      </div>
+      <div class="bg-white rounded-2xl p-5 shadow-sm flex items-center gap-4 text-left">
+        <div class="w-12 h-12 bg-tennis-green/10 rounded-xl flex items-center justify-center flex-shrink-0">
+          <i class="fas fa-phone text-tennis-green"></i>
+        </div>
+        <div>
+          <p class="font-body text-xs text-gray-400 uppercase tracking-widest mb-0.5">Need Help?</p>
+          <p class="font-body text-tennis-dark font-medium text-sm">Call us at +62 812-3456-7890</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+      <a href="{% url 'court_list' %}"
+         class="font-bebas bg-tennis-green text-white px-8 py-4 rounded-full text-xl tracking-widest hover:bg-green-600 transition-all duration-300 shadow-lg hover:-translate-y-1 transform w-full sm:w-auto">
+        Book Another Court
+      </a>
+      <a href="{% url 'home' %}"
+         class="font-bebas border-2 border-tennis-dark text-tennis-dark px-8 py-4 rounded-full text-xl tracking-widest hover:bg-tennis-dark hover:text-white transition-all duration-300 w-full sm:w-auto">
+        Back to Home
+      </a>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

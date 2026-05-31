@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}TennisBook — Book Your Tennis Court Easily{% endblock %}</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Anton&family=Bebas+Neue&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            'display': ['Anton', 'sans-serif'],
+            'body': ['Inter', 'sans-serif'],
+            'bebas': ['Bebas Neue', 'sans-serif'],
+          },
+          colors: {
+            'tennis-green': '#1DB954',
+            'tennis-dark': '#0A3D1F',
+            'tennis-yellow': '#DFFF00',
+            'tennis-light': '#F5F5F0',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .font-coolvetica { font-family: 'Anton', sans-serif; letter-spacing: -0.02em; }
+    .nav-link { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.05em; font-size: 1rem; }
+    * { -webkit-font-smoothing: antialiased; }
+    .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+    .hover-lift:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+    .nav-active { border-bottom: 2px solid #DFFF00; color: #DFFF00 !important; }
+    html { scroll-behavior: smooth; }
+    .price-tag { font-family: 'Bebas Neue', sans-serif; }
+  </style>
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-white text-gray-800">
+
+  <!-- NAVBAR -->
+  <nav class="fixed top-0 left-0 right-0 z-50 shadow-2xl" style="background-color:#0A3D1F;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+
+        <!-- Logo -->
+        <a href="{% url 'home' %}" class="flex items-center gap-2">
+          <span class="font-coolvetica text-2xl tracking-tight" style="color:#DFFF00;">TennisBook</span>
+          <span class="text-xs font-bold px-2 py-0.5 rounded-full font-bebas tracking-widest" style="background:#DFFF00;color:#0A3D1F;">PRO</span>
+        </a>
+
+        <!-- Desktop Nav Links -->
+        <div class="hidden md:flex items-center gap-8">
+          <a href="{% url 'home' %}" class="nav-link text-white hover:text-yellow-300 transition-colors duration-200 {% if request.resolver_match.url_name == 'home' %}nav-active{% endif %}">Home</a>
+          <a href="{% url 'court_list' %}" class="nav-link text-white hover:text-yellow-300 transition-colors duration-200 {% if 'court' in request.resolver_match.url_name %}nav-active{% endif %}">Courts</a>
+          <a href="{% url 'service' %}" class="nav-link text-white hover:text-yellow-300 transition-colors duration-200 {% if request.resolver_match.url_name == 'service' %}nav-active{% endif %}">Services</a>
+          <a href="{% url 'contact' %}" class="nav-link text-white hover:text-yellow-300 transition-colors duration-200 {% if request.resolver_match.url_name == 'contact' %}nav-active{% endif %}">Contact</a>
+        </div>
+
+        <!-- Auth Buttons Desktop -->
+        <div class="hidden md:flex items-center gap-3">
+          {% if user.is_authenticated and user.is_staff %}
+            <a href="{% url 'custom_admin_dashboard' %}" class="nav-link text-yellow-300 hover:text-white transition-colors duration-200 text-sm">Admin Panel</a>
+            <a href="{% url 'user_logout' %}" class="font-bebas px-5 py-2 rounded-full text-sm tracking-wider transition-all duration-200" style="background:rgba(239,68,68,0.2);color:#fff;border:1px solid rgba(239,68,68,0.4);">Logout</a>
+          {% elif user.is_authenticated %}
+            <a href="{% url 'my_bookings' %}" class="nav-link text-white hover:text-yellow-300 transition-colors duration-200 {% if request.resolver_match.url_name == 'my_bookings' %}nav-active{% endif %}">My Bookings</a>
+            <span class="font-body text-gray-300 text-sm hidden lg:block">Hi, <span class="text-yellow-300 font-semibold">{{ user.username }}</span></span>
+            <a href="{% url 'user_logout' %}" class="font-bebas px-5 py-2 rounded-full text-sm tracking-wider transition-all duration-200" style="background:rgba(239,68,68,0.2);color:#fff;border:1px solid rgba(239,68,68,0.4);">Logout</a>
+          {% else %}
+            <a href="{% url 'user_login' %}" class="font-bebas border-2 border-white text-white px-5 py-2 rounded-full text-sm hover:bg-white hover:text-tennis-dark tracking-wider transition-all duration-200">Login</a>
+            <a href="{% url 'user_register' %}" class="font-bebas px-5 py-2 rounded-full text-sm tracking-wider hover:bg-yellow-300 transition-all duration-200" style="background:#DFFF00;color:#0A3D1F;">Register</a>
+          {% endif %}
+        </div>
+
+        <!-- Mobile Hamburger -->
+        <button id="menuBtn" class="md:hidden text-white focus:outline-none">
+          <i class="fas fa-bars text-xl"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="hidden md:hidden border-t border-green-800" style="background-color:#0A3D1F;">
+      <div class="px-4 py-4 space-y-3">
+        <a href="{% url 'home' %}" class="block nav-link text-white hover:text-yellow-300 transition-colors py-2">Home</a>
+        <a href="{% url 'court_list' %}" class="block nav-link text-white hover:text-yellow-300 transition-colors py-2">Courts</a>
+        <a href="{% url 'service' %}" class="block nav-link text-white hover:text-yellow-300 transition-colors py-2">Services</a>
+        <a href="{% url 'contact' %}" class="block nav-link text-white hover:text-yellow-300 transition-colors py-2">Contact</a>
+        <div class="pt-3 border-t border-green-800 space-y-2">
+          {% if user.is_authenticated and user.is_staff %}
+            <a href="{% url 'custom_admin_dashboard' %}" class="block nav-link text-yellow-300 py-2">Admin Panel</a>
+            <a href="{% url 'user_logout' %}" class="inline-block font-bebas px-5 py-2 rounded-full text-sm tracking-wider" style="background:rgba(239,68,68,0.3);color:#fff;">Logout</a>
+          {% elif user.is_authenticated %}
+            <p class="font-body text-gray-300 text-sm">Hi, <span class="text-yellow-300 font-semibold">{{ user.username }}</span></p>
+            <a href="{% url 'my_bookings' %}" class="block nav-link text-white hover:text-yellow-300 py-2">My Bookings</a>
+            <a href="{% url 'user_logout' %}" class="inline-block font-bebas px-5 py-2 rounded-full text-sm tracking-wider" style="background:rgba(239,68,68,0.3);color:#fff;">Logout</a>
+          {% else %}
+            <a href="{% url 'user_login' %}" class="inline-block font-bebas border-2 border-white text-white px-5 py-2 rounded-full text-sm tracking-wider mr-2">Login</a>
+            <a href="{% url 'user_register' %}" class="inline-block font-bebas px-5 py-2 rounded-full text-sm tracking-wider" style="background:#DFFF00;color:#0A3D1F;">Register</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Messages -->
+  {% if messages %}
+  <div class="fixed top-16 left-0 right-0 z-40 px-4 pt-3">
+    <div class="max-w-2xl mx-auto space-y-2">
+      {% for message in messages %}
+      <div class="flex items-center justify-between gap-3 px-5 py-3 rounded-xl shadow-lg font-body text-sm
+        {% if message.tags == 'success' %}bg-green-50 border border-green-200 text-green-800
+        {% elif message.tags == 'error' %}bg-red-50 border border-red-200 text-red-800
+        {% else %}bg-blue-50 border border-blue-200 text-blue-800{% endif %}">
+        <span>{{ message }}</span>
+        <button onclick="this.parentElement.remove()" class="text-gray-400 hover:text-gray-600"><i class="fas fa-times text-xs"></i></button>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+
+  <main class="pt-16">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="text-white pt-16 pb-8" style="background-color:#0A3D1F;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+        <div>
+          <div class="flex items-center gap-2 mb-4">
+            <span class="font-coolvetica text-3xl" style="color:#DFFF00;">TennisBook</span>
+          </div>
+          <p class="text-gray-400 text-sm leading-relaxed mb-6">Book Your Tennis Court Easily. Premium courts, flexible scheduling, and a seamless booking experience.</p>
+          <div class="flex items-center gap-4">
+            <a href="#" class="text-gray-400 hover:text-yellow-300 transition-colors"><i class="fab fa-instagram text-lg"></i></a>
+            <a href="#" class="text-gray-400 hover:text-yellow-300 transition-colors"><i class="fab fa-twitter text-lg"></i></a>
+            <a href="#" class="text-gray-400 hover:text-yellow-300 transition-colors"><i class="fab fa-facebook text-lg"></i></a>
+            <a href="#" class="text-gray-400 hover:text-yellow-300 transition-colors"><i class="fab fa-youtube text-lg"></i></a>
+          </div>
+        </div>
+        <div>
+          <h4 class="font-bebas text-xl tracking-widest mb-6" style="color:#DFFF00;">Quick Links</h4>
+          <ul class="space-y-3">
+            <li><a href="{% url 'home' %}" class="text-gray-400 hover:text-yellow-300 transition-colors text-sm flex items-center gap-2"><i class="fas fa-chevron-right text-xs text-green-500"></i>Home</a></li>
+            <li><a href="{% url 'court_list' %}" class="text-gray-400 hover:text-yellow-300 transition-colors text-sm flex items-center gap-2"><i class="fas fa-chevron-right text-xs text-green-500"></i>Our Courts</a></li>
+            <li><a href="{% url 'service' %}" class="text-gray-400 hover:text-yellow-300 transition-colors text-sm flex items-center gap-2"><i class="fas fa-chevron-right text-xs text-green-500"></i>Services</a></li>
+            <li><a href="{% url 'contact' %}" class="text-gray-400 hover:text-yellow-300 transition-colors text-sm flex items-center gap-2"><i class="fas fa-chevron-right text-xs text-green-500"></i>Contact</a></li>
+            {% if not user.is_authenticated %}
+            <li><a href="{% url 'user_login' %}" class="text-gray-400 hover:text-yellow-300 transition-colors text-sm flex items-center gap-2"><i class="fas fa-chevron-right text-xs text-green-500"></i>Login</a></li>
+            <li><a href="{% url 'user_register' %}" class="text-gray-400 hover:text-yellow-300 transition-colors text-sm flex items-center gap-2"><i class="fas fa-chevron-right text-xs text-green-500"></i>Register</a></li>
+            {% endif %}
+          </ul>
+        </div>
+        <div>
+          <h4 class="font-bebas text-xl tracking-widest mb-6" style="color:#DFFF00;">Contact Us</h4>
+          <ul class="space-y-4">
+            <li class="flex items-start gap-3 text-gray-400 text-sm"><i class="fas fa-map-marker-alt text-green-500 mt-0.5"></i><span>Jl. Tennis Arena No. 1,<br>Jakarta, Indonesia</span></li>
+            <li class="flex items-center gap-3 text-gray-400 text-sm"><i class="fas fa-envelope text-green-500"></i><span>info@tennisbook.id</span></li>
+            <li class="flex items-center gap-3 text-gray-400 text-sm"><i class="fas fa-phone text-green-500"></i><span>+62 812-3456-7890</span></li>
+            <li class="flex items-center gap-3 text-gray-400 text-sm"><i class="fas fa-clock text-green-500"></i><span>Mon - Sun, 06:00 - 22:00 WIB</span></li>
+          </ul>
+        </div>
+      </div>
+      <div class="border-t border-green-800 pt-6 text-center">
+        <p class="text-gray-500 text-sm">&copy; 2024 TennisBook. All rights reserved. Built with Django for college assignment.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    menuBtn.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      const icon = menuBtn.querySelector('i');
+      icon.classList.toggle('fa-bars');
+      icon.classList.toggle('fa-times');
+    });
+  </script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

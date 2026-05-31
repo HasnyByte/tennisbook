@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block title %}Our Courts — TennisBook{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<section class="relative h-64 flex items-center justify-center overflow-hidden"
+  style="background-image: url('https://images.unsplash.com/photo-1554068865-24cecd4e34b8?w=1920&q=80'); background-size: cover; background-position: center;">
+  <div class="absolute inset-0" style="background: rgba(0,0,0,0.60);"></div>
+  <div class="relative z-10 text-center px-4">
+    <p class="font-bebas text-tennis-yellow tracking-[0.3em] text-sm mb-3">Discover</p>
+    <h1 class="font-coolvetica text-white text-5xl md:text-7xl">OUR COURTS</h1>
+    <!-- Breadcrumb -->
+    <div class="flex items-center justify-center gap-2 mt-4 text-sm font-body text-gray-300">
+      <a href="{% url 'home' %}" class="hover:text-tennis-yellow transition-colors">Home</a>
+      <i class="fas fa-chevron-right text-xs text-gray-500"></i>
+      <span class="text-tennis-yellow">Courts</span>
+    </div>
+  </div>
+</section>
+
+<!-- Filter / Info Bar -->
+<section class="bg-white border-b border-gray-100 py-4 sticky top-16 z-40 shadow-sm">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+    <p class="font-body text-gray-500 text-sm">
+      Showing <span class="font-semibold text-tennis-dark">{{ courts|length }}</span> court{% if courts|length != 1 %}s{% endif %}
+    </p>
+    <div class="flex items-center gap-2 text-sm font-body text-gray-400">
+      <i class="fas fa-filter text-tennis-green"></i>
+      <span>All Courts</span>
+    </div>
+  </div>
+</section>
+
+<!-- Courts Grid -->
+<section class="py-16 bg-tennis-light min-h-screen">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    {% if courts %}
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+      {% for court in courts %}
+      <div class="bg-white rounded-2xl shadow-lg overflow-hidden hover-lift group">
+        <!-- Court Image -->
+        <div class="relative h-56 overflow-hidden">
+          <img src="{{ court.image_url|default:'https://images.unsplash.com/photo-1554068865-24cecd4e34b8?w=800&q=80' }}"
+               alt="{{ court.name }}"
+               class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+          <!-- Availability Badge -->
+          <div class="absolute top-4 right-4">
+            {% if court.is_available %}
+              <span class="bg-tennis-green text-white text-xs font-bold px-3 py-1.5 rounded-full font-bebas tracking-widest shadow">Available</span>
+            {% else %}
+              <span class="bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-full font-bebas tracking-widest shadow">Unavailable</span>
+            {% endif %}
+          </div>
+          <!-- View Detail Link Overlay -->
+          <a href="{% url 'court_detail' court.pk %}" class="absolute inset-0 bg-tennis-dark/0 group-hover:bg-tennis-dark/20 transition-all duration-300 flex items-center justify-center">
+            <span class="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white text-tennis-dark font-bebas px-4 py-2 rounded-full text-sm tracking-widest">View Details</span>
+          </a>
+        </div>
+
+        <!-- Court Info -->
+        <div class="p-6">
+          <h3 class="font-display text-tennis-dark text-xl mb-2">{{ court.name }}</h3>
+          <div class="flex items-center gap-1 text-gray-500 text-sm mb-3">
+            <i class="fas fa-map-marker-alt text-tennis-green text-xs"></i>
+            <span class="font-body">{{ court.location }}</span>
+          </div>
+          <p class="font-body text-gray-400 text-sm mb-5 leading-relaxed line-clamp-2">{{ court.description }}</p>
+
+          <!-- Facilities Pills -->
+          {% with facilities=court.facilities.all %}
+          {% if facilities %}
+          <div class="flex flex-wrap gap-2 mb-4">
+            {% for fac in facilities|slice:":3" %}
+            <span class="bg-tennis-green/10 text-tennis-dark text-xs font-body px-3 py-1 rounded-full">{{ fac.name }}</span>
+            {% endfor %}
+          </div>
+          {% endif %}
+          {% endwith %}
+
+          <!-- Price & Book -->
+          <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+            <div>
+              <span class="price-tag text-tennis-green text-2xl font-bold">Rp {{ court.price_per_hour|floatformat:0 }}</span>
+              <span class="font-body text-gray-400 text-xs">/hour</span>
+            </div>
+            {% if court.is_available %}
+            <a href="{% url 'booking_form' court.pk %}"
+               class="font-bebas bg-tennis-green text-white px-5 py-2.5 rounded-xl text-sm tracking-widest hover:bg-green-600 transition-all duration-200">
+              Book Now
+            </a>
+            {% else %}
+            <span class="font-bebas bg-gray-200 text-gray-500 px-5 py-2.5 rounded-xl text-sm tracking-widest cursor-not-allowed">Unavailable</span>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    {% else %}
+    <div class="text-center py-24">
+      <div class="inline-flex items-center justify-center w-24 h-24 bg-gray-100 rounded-full mb-6">
+        <i class="fas fa-table-tennis text-4xl text-gray-300"></i>
+      </div>
+      <h3 class="font-display text-gray-400 text-2xl mb-3">No Courts Found</h3>
+      <p class="font-body text-gray-400 mb-8">No courts have been added yet. Check back soon!</p>
+      <a href="{% url 'home' %}" class="font-bebas bg-tennis-dark text-white px-8 py-3 rounded-full tracking-widest hover:bg-green-900 transition-all duration-200">
+        Back to Home
+      </a>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+{% endblock %}

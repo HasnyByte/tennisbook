@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+{% block title %}Register — TennisBook{% endblock %}
+{% block content %}
+<section class="min-h-screen flex items-center justify-center py-16 bg-tennis-light">
+  <div class="w-full max-w-md px-4">
+
+    <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
+      <!-- Card Header -->
+      <div class="px-8 pt-10 pb-6 text-center" style="background-color:#0A3D1F;">
+        <a href="{% url 'home' %}" class="font-coolvetica text-3xl" style="color:#DFFF00;">TennisBook</a>
+        <p class="font-body text-gray-300 text-sm mt-1">Create your free account</p>
+      </div>
+
+      <!-- Form Body -->
+      <div class="px-8 py-8">
+        <h2 class="font-coolvetica text-tennis-dark text-3xl mb-1">Join TennisBook</h2>
+        <p class="font-body text-gray-500 text-sm mb-8">Create an account to track your bookings.</p>
+
+        <form method="post" novalidate>
+          {% csrf_token %}
+          <div class="space-y-5">
+            <div>
+              <label class="block font-body font-medium text-gray-700 text-sm mb-2">Username</label>
+              {{ form.username }}
+              {% if form.username.errors %}
+              <p class="text-red-500 text-xs mt-1">{{ form.username.errors.0 }}</p>
+              {% endif %}
+            </div>
+            <div>
+              <label class="block font-body font-medium text-gray-700 text-sm mb-2">Email Address</label>
+              {{ form.email }}
+              {% if form.email.errors %}
+              <p class="text-red-500 text-xs mt-1">{{ form.email.errors.0 }}</p>
+              {% endif %}
+            </div>
+            <div>
+              <label class="block font-body font-medium text-gray-700 text-sm mb-2">Password</label>
+              {{ form.password1 }}
+              {% if form.password1.errors %}
+              <p class="text-red-500 text-xs mt-1">{{ form.password1.errors.0 }}</p>
+              {% endif %}
+            </div>
+            <div>
+              <label class="block font-body font-medium text-gray-700 text-sm mb-2">Confirm Password</label>
+              {{ form.password2 }}
+              {% if form.password2.errors %}
+              <p class="text-red-500 text-xs mt-1">{{ form.password2.errors.0 }}</p>
+              {% endif %}
+            </div>
+          </div>
+
+          {% if form.non_field_errors %}
+          <div class="mt-4 bg-red-50 border border-red-200 rounded-xl p-4">
+            {% for error in form.non_field_errors %}
+            <p class="text-red-500 text-sm font-body">{{ error }}</p>
+            {% endfor %}
+          </div>
+          {% endif %}
+
+          <!-- Password tips -->
+          <div class="mt-4 bg-blue-50 border border-blue-100 rounded-xl p-4">
+            <p class="font-body text-blue-600 text-xs leading-relaxed">Password must be at least 8 characters and cannot be entirely numeric.</p>
+          </div>
+
+          <button type="submit" class="w-full mt-6 font-bebas py-4 rounded-xl text-xl tracking-widest transition-all duration-300 hover:opacity-90 shadow-lg" style="background-color:#1DB954;color:#fff;">
+            Create Account
+          </button>
+        </form>
+
+        <div class="mt-6 text-center">
+          <p class="font-body text-gray-500 text-sm">
+            Already have an account?
+            <a href="{% url 'user_login' %}" class="font-semibold hover:underline" style="color:#1DB954;">Sign in here</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <p class="text-center text-gray-400 text-sm mt-6 font-body">
+      <a href="{% url 'home' %}" class="hover:text-gray-600 transition-colors"><i class="fas fa-arrow-left mr-1"></i>Back to Home</a>
+    </p>
+  </div>
+</section>
+{% endblock %}

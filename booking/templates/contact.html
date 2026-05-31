@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block title %}Contact Us — TennisBook{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<section class="bg-tennis-dark py-16">
+  <div class="max-w-7xl mx-auto px-4 text-center">
+    <p class="font-bebas text-tennis-yellow tracking-[0.3em] text-sm mb-3">Get In Touch</p>
+    <h1 class="font-coolvetica text-white text-5xl md:text-7xl">CONTACT US</h1>
+    <div class="flex items-center justify-center gap-2 mt-4 text-sm font-body text-gray-400">
+      <a href="{% url 'home' %}" class="hover:text-tennis-yellow transition-colors">Home</a>
+      <i class="fas fa-chevron-right text-xs text-gray-600"></i>
+      <span class="text-tennis-yellow">Contact</span>
+    </div>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section class="py-16 bg-tennis-light min-h-screen">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+
+      <!-- Left: Contact Info -->
+      <div>
+        <p class="font-bebas text-tennis-green tracking-widest text-sm mb-3">Reach Us At</p>
+        <h2 class="font-coolvetica text-tennis-dark text-4xl md:text-5xl mb-4">WE'D LOVE TO<br>HEAR FROM YOU</h2>
+        <p class="font-body text-gray-500 leading-relaxed mb-8">Have questions about our courts, booking process, or services? Our team is ready to help. Reach us through any of the channels below.</p>
+
+        <div class="space-y-5">
+          <!-- Address -->
+          <div class="bg-white rounded-2xl p-6 shadow-md flex items-start gap-5 hover:shadow-lg transition-all duration-300">
+            <div class="w-14 h-14 bg-tennis-green/10 rounded-2xl flex items-center justify-center flex-shrink-0">
+              <i class="fas fa-map-marker-alt text-tennis-green text-xl"></i>
+            </div>
+            <div>
+              <h4 class="font-display text-tennis-dark text-base mb-1">Our Address</h4>
+              <p class="font-body text-gray-500 text-sm leading-relaxed">Jl. Tennis Arena No. 1<br>Jakarta Selatan, Indonesia 12190</p>
+            </div>
+          </div>
+
+          <!-- Email -->
+          <div class="bg-white rounded-2xl p-6 shadow-md flex items-start gap-5 hover:shadow-lg transition-all duration-300">
+            <div class="w-14 h-14 bg-tennis-green/10 rounded-2xl flex items-center justify-center flex-shrink-0">
+              <i class="fas fa-envelope text-tennis-green text-xl"></i>
+            </div>
+            <div>
+              <h4 class="font-display text-tennis-dark text-base mb-1">Email Address</h4>
+              <p class="font-body text-gray-500 text-sm">info@tennisbook.id</p>
+              <p class="font-body text-gray-400 text-xs mt-1">We reply within 24 hours</p>
+            </div>
+          </div>
+
+          <!-- Phone -->
+          <div class="bg-white rounded-2xl p-6 shadow-md flex items-start gap-5 hover:shadow-lg transition-all duration-300">
+            <div class="w-14 h-14 bg-tennis-green/10 rounded-2xl flex items-center justify-center flex-shrink-0">
+              <i class="fas fa-phone text-tennis-green text-xl"></i>
+            </div>
+            <div>
+              <h4 class="font-display text-tennis-dark text-base mb-1">Phone Number</h4>
+              <p class="font-body text-gray-500 text-sm">+62 812-3456-7890</p>
+              <p class="font-body text-gray-400 text-xs mt-1">Available during operating hours</p>
+            </div>
+          </div>
+
+          <!-- Hours -->
+          <div class="bg-white rounded-2xl p-6 shadow-md flex items-start gap-5 hover:shadow-lg transition-all duration-300">
+            <div class="w-14 h-14 bg-tennis-green/10 rounded-2xl flex items-center justify-center flex-shrink-0">
+              <i class="fas fa-clock text-tennis-green text-xl"></i>
+            </div>
+            <div>
+              <h4 class="font-display text-tennis-dark text-base mb-1">Operating Hours</h4>
+              <p class="font-body text-gray-500 text-sm">Monday - Sunday</p>
+              <p class="font-body text-tennis-green font-semibold text-sm mt-1">06:00 - 22:00 WIB</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Map Placeholder -->
+      <div class="flex flex-col gap-6">
+        <!-- Map Placeholder -->
+        <div class="bg-tennis-green/10 border-2 border-tennis-green/20 rounded-2xl h-80 flex flex-col items-center justify-center shadow-inner relative overflow-hidden">
+          <!-- Decorative grid lines -->
+          <div class="absolute inset-0 opacity-10"
+            style="background-image: linear-gradient(#1DB954 1px, transparent 1px), linear-gradient(90deg, #1DB954 1px, transparent 1px); background-size: 40px 40px;"></div>
+
+          <div class="relative z-10 text-center">
+            <div class="w-16 h-16 bg-tennis-green rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+              <i class="fas fa-map-marker-alt text-white text-2xl"></i>
+            </div>
+            <p class="font-display text-tennis-dark text-lg mb-2">TennisBook HQ</p>
+            <p class="font-body text-gray-500 text-sm">Jl. Tennis Arena No. 1, Jakarta</p>
+            <div class="mt-4">
+              <span class="inline-flex items-center gap-2 bg-tennis-green text-white font-bebas px-5 py-2 rounded-full text-sm tracking-widest">
+                <i class="fas fa-directions text-xs"></i>
+                Get Directions
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Book CTA -->
+        <div class="bg-tennis-dark rounded-2xl p-8 text-center">
+          <i class="fas fa-table-tennis text-tennis-yellow text-4xl mb-4"></i>
+          <h3 class="font-coolvetica text-white text-3xl mb-3">READY TO PLAY?</h3>
+          <p class="font-body text-gray-400 text-sm mb-6 leading-relaxed">Don't wait — book your preferred court right now and get on the court today.</p>
+          <a href="{% url 'court_list' %}"
+             class="inline-block font-bebas bg-tennis-yellow text-tennis-dark px-8 py-4 rounded-full text-xl tracking-widest hover:bg-yellow-300 transition-all duration-300">
+            Book a Court
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

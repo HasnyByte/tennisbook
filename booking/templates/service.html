@@ -1,0 +1,219 @@
+{% extends 'base.html' %}
+
+{% block title %}Our Services — TennisBook{% endblock %}
+
+{% block content %}
+
+<!-- Page Header -->
+<section class="relative h-64 flex items-center justify-center overflow-hidden"
+  style="background-image: url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1920&q=80'); background-size: cover; background-position: center;">
+  <div class="absolute inset-0" style="background: rgba(0,0,0,0.60);"></div>
+  <div class="relative z-10 text-center px-4">
+    <p class="font-bebas text-tennis-yellow tracking-[0.3em] text-sm mb-3">What We Offer</p>
+    <h1 class="font-coolvetica text-white text-5xl md:text-7xl">OUR SERVICES</h1>
+    <div class="flex items-center justify-center gap-2 mt-4 text-sm font-body text-gray-300">
+      <a href="{% url 'home' %}" class="hover:text-tennis-yellow transition-colors">Home</a>
+      <i class="fas fa-chevron-right text-xs text-gray-500"></i>
+      <span class="text-tennis-yellow">Services</span>
+    </div>
+  </div>
+</section>
+
+<!-- Section 1: About TennisBook -->
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <!-- Text -->
+      <div>
+        <p class="font-bebas text-tennis-green tracking-widest text-sm mb-3">Who We Are</p>
+        <h2 class="font-coolvetica text-tennis-dark text-5xl md:text-6xl leading-tight mb-6">ABOUT TENNISBOOK</h2>
+        <p class="font-body text-gray-500 text-lg leading-relaxed mb-6">
+          TennisBook is Jakarta's premier online tennis court booking platform. We connect tennis enthusiasts with world-class courts, offering a seamless reservation experience from any device, at any time.
+        </p>
+        <p class="font-body text-gray-500 leading-relaxed mb-8">
+          Our mission is to make tennis more accessible by simplifying the booking process. With real-time availability, transparent pricing, and premium facilities, TennisBook ensures every game is exceptional.
+        </p>
+        <div class="grid grid-cols-2 gap-6">
+          <div class="p-4 bg-tennis-light rounded-xl">
+            <div class="font-display text-tennis-green text-3xl mb-1">10+</div>
+            <div class="font-body text-gray-500 text-sm">Premium Courts</div>
+          </div>
+          <div class="p-4 bg-tennis-light rounded-xl">
+            <div class="font-display text-tennis-green text-3xl mb-1">500+</div>
+            <div class="font-body text-gray-500 text-sm">Happy Players</div>
+          </div>
+        </div>
+      </div>
+      <!-- Image -->
+      <div class="relative">
+        <div class="rounded-2xl overflow-hidden shadow-2xl">
+          <img src="https://images.unsplash.com/photo-1622279457486-62dcc4a431d6?w=800&q=80"
+               alt="TennisBook courts"
+               class="w-full h-96 object-cover" />
+        </div>
+        <div class="absolute -bottom-6 -left-6 bg-tennis-green text-white p-6 rounded-2xl shadow-xl">
+          <div class="font-display text-3xl">5</div>
+          <div class="font-bebas tracking-widest text-sm">Star Rated</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 2: Services Grid -->
+<section class="py-20 bg-tennis-light">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-14">
+      <p class="font-bebas text-tennis-green tracking-widest text-sm mb-3">What We Provide</p>
+      <h2 class="font-coolvetica text-tennis-dark text-5xl md:text-6xl mb-4">OUR SERVICES</h2>
+      <p class="font-body text-gray-500 text-lg max-w-xl mx-auto">Everything you need for a perfect tennis experience.</p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Court Booking -->
+      <div class="bg-white rounded-2xl p-7 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 transform group text-center">
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-tennis-green/10 rounded-2xl mb-5 group-hover:bg-tennis-green group-hover:text-white transition-all duration-300">
+          <i class="fas fa-calendar-check text-tennis-green group-hover:text-white text-2xl transition-colors duration-300"></i>
+        </div>
+        <h3 class="font-display text-tennis-dark text-lg mb-3">Court Booking</h3>
+        <p class="font-body text-gray-500 text-sm leading-relaxed">Reserve your preferred court online in minutes. Available 24/7 with real-time court availability.</p>
+      </div>
+
+      <!-- Equipment Rental -->
+      <div class="bg-white rounded-2xl p-7 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 transform group text-center">
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-tennis-green/10 rounded-2xl mb-5 group-hover:bg-tennis-green group-hover:text-white transition-all duration-300">
+          <i class="fas fa-table-tennis text-tennis-green group-hover:text-white text-2xl transition-colors duration-300"></i>
+        </div>
+        <h3 class="font-display text-tennis-dark text-lg mb-3">Equipment Rental</h3>
+        <p class="font-body text-gray-500 text-sm leading-relaxed">Rent professional-grade rackets, balls, and other equipment on-site at affordable hourly rates.</p>
+      </div>
+
+      <!-- Training Sessions -->
+      <div class="bg-white rounded-2xl p-7 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 transform group text-center">
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-tennis-green/10 rounded-2xl mb-5 group-hover:bg-tennis-green group-hover:text-white transition-all duration-300">
+          <i class="fas fa-user-graduate text-tennis-green group-hover:text-white text-2xl transition-colors duration-300"></i>
+        </div>
+        <h3 class="font-display text-tennis-dark text-lg mb-3">Training Sessions</h3>
+        <p class="font-body text-gray-500 text-sm leading-relaxed">Book one-on-one or group coaching sessions with certified professional tennis coaches.</p>
+      </div>
+
+      <!-- Tournaments -->
+      <div class="bg-white rounded-2xl p-7 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 transform group text-center">
+        <div class="inline-flex items-center justify-center w-16 h-16 bg-tennis-green/10 rounded-2xl mb-5 group-hover:bg-tennis-green group-hover:text-white transition-all duration-300">
+          <i class="fas fa-trophy text-tennis-green group-hover:text-white text-2xl transition-colors duration-300"></i>
+        </div>
+        <h3 class="font-display text-tennis-dark text-lg mb-3">Tournaments</h3>
+        <p class="font-body text-gray-500 text-sm leading-relaxed">Participate in regularly organized local tournaments. Compete, improve, and win exciting prizes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 3: How It Works -->
+<section class="py-20 bg-white">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-14">
+      <p class="font-bebas text-tennis-green tracking-widest text-sm mb-3">Simple Process</p>
+      <h2 class="font-coolvetica text-tennis-dark text-5xl md:text-6xl mb-4">HOW IT WORKS</h2>
+      <p class="font-body text-gray-500 text-lg max-w-xl mx-auto">Getting on the court is quick and easy. Follow these three simple steps.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+      <!-- Connecting line -->
+      <div class="hidden md:block absolute top-12 left-1/3 right-1/3 h-0.5 bg-gradient-to-r from-tennis-green/30 via-tennis-green to-tennis-green/30 z-0"></div>
+
+      <!-- Step 1 -->
+      <div class="relative z-10 text-center">
+        <div class="inline-flex items-center justify-center w-24 h-24 bg-tennis-dark text-tennis-yellow rounded-full mb-6 shadow-xl">
+          <span class="font-coolvetica text-4xl">01</span>
+        </div>
+        <h3 class="font-display text-tennis-dark text-xl mb-3">Choose Your Court</h3>
+        <p class="font-body text-gray-500 text-sm leading-relaxed max-w-xs mx-auto">Browse our selection of premium tennis courts. Filter by availability, price, and location to find your perfect match.</p>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="relative z-10 text-center">
+        <div class="inline-flex items-center justify-center w-24 h-24 bg-tennis-green text-white rounded-full mb-6 shadow-xl">
+          <span class="font-coolvetica text-4xl">02</span>
+        </div>
+        <h3 class="font-display text-tennis-dark text-xl mb-3">Fill Booking Form</h3>
+        <p class="font-body text-gray-500 text-sm leading-relaxed max-w-xs mx-auto">Enter your personal information, preferred date, and time slot. Our simple form takes less than two minutes to complete.</p>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="relative z-10 text-center">
+        <div class="inline-flex items-center justify-center w-24 h-24 bg-tennis-yellow text-tennis-dark rounded-full mb-6 shadow-xl">
+          <span class="font-coolvetica text-4xl">03</span>
+        </div>
+        <h3 class="font-display text-tennis-dark text-xl mb-3">Play and Enjoy</h3>
+        <p class="font-body text-gray-500 text-sm leading-relaxed max-w-xs mx-auto">Arrive at your reserved court and enjoy a premium tennis experience. Our staff is ready to assist you on game day.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Section 4: Testimonials -->
+<section class="py-20 bg-tennis-light">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center mb-14">
+      <p class="font-bebas text-tennis-green tracking-widest text-sm mb-3">Happy Players</p>
+      <h2 class="font-coolvetica text-tennis-dark text-5xl md:text-6xl mb-4">TESTIMONIALS</h2>
+      <p class="font-body text-gray-500 text-lg max-w-xl mx-auto">What our players say about TennisBook.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Testimonial 1 -->
+      <div class="bg-white rounded-2xl p-8 shadow-md hover:shadow-lg transition-all duration-300">
+        <div class="flex items-center gap-1 text-tennis-yellow mb-4">
+          <i class="fas fa-star text-sm"></i><i class="fas fa-star text-sm"></i><i class="fas fa-star text-sm"></i><i class="fas fa-star text-sm"></i><i class="fas fa-star text-sm"></i>
+        </div>
+        <p class="font-body text-gray-500 text-sm leading-relaxed mb-6 italic">"TennisBook made it so easy to reserve a court for my weekly game. The process is seamless and the courts are always in top condition. Highly recommended!"</p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-tennis-dark rounded-full flex items-center justify-center">
+            <span class="font-bebas text-tennis-yellow text-sm">BR</span>
+          </div>
+          <div>
+            <p class="font-body font-semibold text-tennis-dark text-sm">Budi Raharjo</p>
+            <p class="font-body text-gray-400 text-xs">Regular Player</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 2 -->
+      <div class="bg-white rounded-2xl p-8 shadow-md hover:shadow-lg transition-all duration-300">
+        <div class="flex items-center gap-1 text-tennis-yellow mb-4">
+          <i class="fas fa-star text-sm"></i><i class="fas fa-star text-sm"></i><i class="fas fa-star text-sm"></i><i class="fas fa-star text-sm"></i><i class="fas fa-star text-sm"></i>
+        </div>
+        <p class="font-body text-gray-500 text-sm leading-relaxed mb-6 italic">"I love how I can book a court from my phone within minutes. The facilities are excellent and the staff is very professional. TennisBook is my go-to platform!"</p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-tennis-green rounded-full flex items-center justify-center">
+            <span class="font-bebas text-white text-sm">SA</span>
+          </div>
+          <div>
+            <p class="font-body font-semibold text-tennis-dark text-sm">Sari Andini</p>
+            <p class="font-body text-gray-400 text-xs">Tennis Coach</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 3 -->
+      <div class="bg-white rounded-2xl p-8 shadow-md hover:shadow-lg transition-all duration-300">
+        <div class="flex items-center gap-1 text-tennis-yellow mb-4">
+          <i class="fas fa-star text-sm"></i><i class="fas fa-star text-sm"></i><i class="fas fa-star text-sm"></i><i class="fas fa-star text-sm"></i><i class="fas fa-star-half-alt text-sm"></i>
+        </div>
+        <p class="font-body text-gray-500 text-sm leading-relaxed mb-6 italic">"As a tournament organizer, TennisBook has been invaluable. Booking multiple courts for our events is effortless. The availability calendar is a game changer!"</p>
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 bg-tennis-yellow rounded-full flex items-center justify-center">
+            <span class="font-bebas text-tennis-dark text-sm">DW</span>
+          </div>
+          <div>
+            <p class="font-body font-semibold text-tennis-dark text-sm">Dwi Wulandari</p>
+            <p class="font-body text-gray-400 text-xs">Tournament Organizer</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
