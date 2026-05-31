@@ -142,12 +142,3 @@ HOW TO ADD SAMPLE COURTS VIA ADMIN
    - image_url: paste any Unsplash URL
    - Select facilities using the horizontal filter
 4. Go to Bookings to view and manage all reservations
-
-NOTES
------
-- No emoji in UI, templates, or README
-- All styling via Tailwind CSS CDN (no build step required)
-- Database is SQLite (db.sqlite3), auto-created on first migrate
-- The project is intended as a college assignment demonstration
-- DEBUG=True and ALLOWED_HOSTS=['*'] are set for local development only
-- Do not deploy with these settings to production
